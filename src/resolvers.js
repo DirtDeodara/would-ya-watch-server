@@ -24,28 +24,11 @@ const resolvers = {
     events: (_, __, { dataSources }) => {
       return dataSources.eventAPI.getAllEvents()
     },
+    event: (_, { EventId }, { dataSources }) => {
+      return dataSources.eventAPI.getEventById(EventId)
+    },
   },
 
-  Event: {
-    Name: ({ EventId }, _, { dataSources }) => {
-      return dataSources.eventAPI.getEvent(EventId)
-    }
-  }
-
-  // Track: {
-  //   author: ({ authorId }, _, { dataSources }) => {
-  //     return dataSources.trackAPI.getAuthor(authorId)
-  //   },
-  //   modules: ({ id }, _, { dataSources }) => {
-  //     return dataSources.trackAPI.getTrackModules(id)
-  //   },
-  //   durationInSeconds: ({ length }) => length,
-  // },
-
-  // Module: {
-  //   durationInSeconds: ({ length }) => length,
-  // },
-  
   // Mutation: {
   //   // increment's a track's numberOfViews property
   //   incrementTrackViews: async (_, { id }, { dataSources }) => {

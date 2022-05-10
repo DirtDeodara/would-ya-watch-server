@@ -3,17 +3,34 @@ const { gql } = require("apollo-server")
 const typeDefs = gql`
   type Query {
     "get all events for the current year"
-    events: [Event]
+    events: [Event!]!
+    event(EventId: ID!): Event!
   }
 
   "a specific event"
   type Event {
     "duh"
     EventId: ID
-    "name of event"
+    "full name of event"
     Name: String
+    "abreviated name of event"
+    ShortName: String
+    "an array of fights"
+    Fights: [Fight]
   }
 
+  type Fight {
+    FightId: Int
+    Order: Int
+    Fighters: [Fighter]
+  }
+
+  type Fighter {
+    FighterId: Int
+    FirstName: String
+    LastName: String
+    Moneyline: Int
+  }
 
   # type Mutation {
   #   incrementTrackViews(id: ID!): IncremementTrackViewsResponse!

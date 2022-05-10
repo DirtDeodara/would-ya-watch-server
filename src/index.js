@@ -1,32 +1,25 @@
 const { ApolloServer } = require("apollo-server")
 const typeDefs = require("./schema")
 const resolvers = require("./resolvers")
-const EventAPI= require("./datasources/event-api")
+const EventAPI = require("./datasources/event-api")
+const mongoose = require("mongoose")
+require("dotenv").config()
 
-/**  Can include and optional parameter of ```mocks``` to the ApolloServer below
-  like this: const server = new ApolloServer({ typeDefs, mocks })
-
- const mocks = {
-   Query: () => ({
-     tracksForHome: () => [...new Array(6)],
-   }),
-   Track: () => ({
-     id: () => "track_01",
-     title: () => "Astro Kitty, Space Explorer",
-     author: () => {
-       return {
-         name: "Grumpy Cat",
-         photo:
-           "https://res.cloudinary.com/dety84pbu/image/upload/v1606816219/kitty-veyron-sm_mctf3c.jpg",
-       }
-     },
-     thumbnail: () =>
-       "https://res.cloudinary.com/dety84pbu/image/upload/v1598465568/nebula_cat_djkt9r.jpg",
-     length: () => 1210,
-     modulesCount: () => 6,
-   }),
- }
- */
+const { MongoClient, ServerApiVersion } = require("mongodb")
+const uri = process.env.MONGODB_URI
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.v1,
+})
+client.connect(async (err) => {
+  // const collection = client.db("test").collection("devices")
+  // perform actions on the collection object
+  // client.close()
+  console.log(
+    await client.db("would-ya-watch").collection("events").countDocuments()
+  )
+})
 
 const startApolloServer = async () => {
   const server = new ApolloServer({
